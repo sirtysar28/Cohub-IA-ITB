@@ -1,0 +1,172 @@
+/* ============================================================
+   CoHub IA ITB Jatim — UI Kit (clean, smooth, modern)
+   Animasi parallax, reveal on scroll, loader & transition
+   ============================================================ */
+
+/* ---------- Base smooth ---------- */
+html { scroll-behavior: smooth; }
+body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+
+[x-cloak] { display: none !important; }
+
+/* ---------- Page transition ---------- */
+.page-enter { animation: pageEnter .45s cubic-bezier(.22,.61,.36,1) both; }
+@keyframes pageEnter {
+    from { opacity: 0; transform: translateY(10px) scale(.995); }
+    to   { opacity: 1; transform: none; }
+}
+.fade-in { animation: fadeIn .3s ease-in both; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+/* ---------- Scroll reveal (dipicu IntersectionObserver di cohub.js) ---------- */
+.reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s cubic-bezier(.22,.61,.36,1); will-change: opacity, transform; }
+.reveal.revealed { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: .1s; }
+.reveal-delay-2 { transition-delay: .2s; }
+.reveal-delay-3 { transition-delay: .3s; }
+@media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+    html { scroll-behavior: auto; }
+}
+
+/* ---------- Parallax hero ---------- */
+.parallax { position: relative; overflow: hidden; isolation: isolate; }
+.parallax-layer { position: absolute; inset: -12% -6%; pointer-events: none; z-index: 0; will-change: transform; transition: transform .18s linear; }
+.parallax-blob { position: absolute; border-radius: 9999px; filter: blur(60px); opacity: .5; }
+.parallax-orb { position: absolute; border-radius: 9999px; opacity: .35; border: 1px solid rgba(255,255,255,.35); will-change: transform; transition: transform .25s ease-out; }
+.parallax-grid { position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background-image: linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 44px 44px; mask-image: radial-gradient(ellipse 70% 65% at 50% 40%, #000 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 65% at 50% 40%, #000 30%, transparent 75%); }
+
+/* ---------- Floating animation ---------- */
+.float-slow { animation: floaty 7s ease-in-out infinite; }
+.float-slower { animation: floaty 10s ease-in-out infinite reverse; }
+@keyframes floaty { 0%,100% { transform: translateY(-10px); } 50% { transform: translateY(12px); } }
+
+/* ---------- Hover lift untuk kartu ---------- */
+.hover-lift { transition: transform .35s cubic-bezier(.22,.61,.36,1), box-shadow .35s ease, border-color .35s ease; }
+.hover-lift:hover { transform: translateY(-6px); box-shadow: 0 20px 40px -18px rgba(49,46,129,.28); }
+
+/* ---------- Shimmer text (hero) ---------- */
+.shimmer { background: linear-gradient(110deg, #fff 30%, #c7d2fe 45%, #fff 60%); background-size: 220% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shimmer 5.5s linear infinite; }
+@keyframes shimmer { to { background-position: -220% 0; } }
+
+/* ---------- Loader overlay (login & pindah halaman) ---------- */
+#cohub-loader { position: fixed; inset: 0; z-index: 9999; display: none; align-items: center; justify-content: center; flex-direction: column; gap: 14px;
+    background: rgba(24,24,40,.45); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+#cohub-loader.active { display: flex; animation: fadeIn .18s ease-in both; }
+.loader-spinner { width: 52px; height: 52px; border-radius: 9999px; border: 4px solid rgba(255,255,255,.25); border-top-color: #a5b4fc; border-right-color: #6366f1;
+    animation: spin .8s linear infinite; box-shadow: 0 0 32px rgba(99,102,241,.55); }
+.loader-spinner.sm { width: 20px; height: 20px; border-width: 3px; box-shadow: none; border-top-color: #6366f1; border-right-color: #4f46e5; }
+.loader-text { color: #e0e7ff; font-size: .85rem; font-weight: 600; letter-spacing: .06em; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- Top progress bar ---------- */
+#cohub-progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; z-index: 9998; border-radius: 0 999px 999px 0;
+    background: linear-gradient(90deg, #6366f1, #a5b4fc, #6366f1); background-size: 200% 100%; animation: shimmerP 1.2s linear infinite;
+    transition: width .28s ease, opacity .3s ease; opacity: 0; }
+#cohub-progress.active { opacity: 1; }
+@keyframes shimmerP { to { background-position: -200% 0; } }
+
+/* ---------- Captcha ---------- */
+.captcha-box { display: inline-flex; align-items: center; gap: 2px; padding: .45rem .8rem; border-radius: .75rem; user-select: none;
+    background: repeating-linear-gradient(45deg, #eef2ff 0 8px, #e0e7ff 8px 16px);
+    background-color: #eef2ff; border: 1px solid #c7d2fe; box-shadow: inset 0 1px 3px rgba(49,46,129,.15);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 800; letter-spacing: .28em; font-size: 1.35rem; line-height: 1;
+    color: #312e81; text-shadow: 1px 1px 0 rgba(255,255,255,.6); }
+.captcha-box .captcha-char { display: inline-block; }
+
+/* ---------- Toggle intip password ---------- */
+.pw-toggle { position: absolute; top: 0; bottom: 0; right: .65rem; display: flex; align-items: center; padding: 0 .35rem; font-size: 1.05rem; line-height: 1;
+    background: transparent; border: 0; cursor: pointer; opacity: .55; transition: opacity .2s ease, transform .2s ease; z-index: 2; }
+.pw-toggle:hover { opacity: 1; transform: scale(1.12); }
+
+/* ---------- Bottom navigation (mobile) ---------- */
+.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 45; display: grid; grid-template-columns: repeat(4, 1fr);
+    background: rgba(255,255,255,.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid #e5e7eb; box-shadow: 0 -8px 24px -12px rgba(17,24,39,.18);
+    padding: .45rem .5rem calc(.45rem + env(safe-area-inset-bottom, 0px)); transition: transform .35s cubic-bezier(.22,.61,.36,1), opacity .3s ease; }
+.bottom-nav.hidden-down { transform: translateY(110%); opacity: 0; pointer-events: none; }
+#bottom-nav-restore { transition: transform .35s cubic-bezier(.22,.61,.36,1), opacity .3s ease; }
+.hidden-down { transform: translateY(140%); opacity: 0; pointer-events: none; }
+.bottom-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: .3rem 0; font-size: .65rem; font-weight: 600; color: #6b7280;
+    border-radius: .75rem; transition: color .2s ease, background .2s ease; }
+.bottom-nav a .bn-icon { font-size: 1.25rem; line-height: 1; transition: transform .25s cubic-bezier(.34,1.56,.64,1); }
+.bottom-nav a.active { color: #4f46e5; background: #eef2ff; }
+.bottom-nav a.active .bn-icon { transform: translateY(-2px) scale(1.12); }
+
+/* ---------- Scrollbar halus ---------- */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #f1f2f6; }
+::-webkit-scrollbar-thumb { background: #c7cbd9; border-radius: 8px; border: 2px solid #f1f2f6; }
+::-webkit-scrollbar-thumb:hover { background: #a5aab8; }
+
+/* ---------- Sidebar minimized (desktop) ---------- */
+#sidebar { transition: width .35s cubic-bezier(.22,.61,.36,1), transform .35s cubic-bezier(.22,.61,.36,1); }
+@media (min-width: 768px) {
+    #sidebar.minimized { width: 5rem; }
+    #sidebar.minimized nav a { justify-content: center; }
+    #sidebar.minimized .sidebar-label { opacity: 0; pointer-events: none; width: 0; overflow: hidden; white-space: nowrap; margin: 0; }
+}
+.sidebar-label { display: inline-block; max-width: 14rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: bottom; transition: opacity .2s ease; }
+
+/* ---------- Hamburger minimize (desktop) ---------- */
+.menu-hamburger { position: relative; width: 20px; height: 16px; display: inline-flex; flex-direction: column; justify-content: space-between; align-items: flex-start; }
+.menu-hamburger span { display: block; height: 2px; width: 100%; border-radius: 2px; background: currentColor;
+    transition: transform .35s cubic-bezier(.22,.61,.36,1), width .35s cubic-bezier(.22,.61,.36,1), opacity .25s ease; }
+#minimize-btn.is-minimized .menu-hamburger span:nth-child(1) { transform: translateY(7px); width: 60%; }
+#minimize-btn.is-minimized .menu-hamburger span:nth-child(2) { width: 80%; }
+#minimize-btn.is-minimized .menu-hamburger span:nth-child(3) { transform: translateY(-7px); width: 60%; }
+#minimize-btn.is-minimized { color: #4f46e5; background: #eef2ff; }
+
+/* ---------- Statistik dashboard ---------- */
+.stat-card { position: relative; overflow: hidden; }
+.stat-card::after { content: ''; position: absolute; right: -24px; top: -24px; width: 90px; height: 90px; border-radius: 9999px;
+    background: radial-gradient(circle, rgba(99,102,241,.14), transparent 70%); }
+.chart-wrap { position: relative; }
+.chart-legend { display: flex; flex-wrap: wrap; gap: .5rem .75rem; }
+.chart-legend .lg-item { display: inline-flex; align-items: center; gap: .4rem; font-size: .72rem; font-weight: 600; color: #4b5563; background: #f9fafb;
+    border: 1px solid #f3f4f6; border-radius: 9999px; padding: .25rem .7rem;
+    animation: fadeIn .5s ease both; }
+.chart-legend .lg-dot { width: 9px; height: 9px; border-radius: 9999px; flex-shrink: 0; }
+
+/* ---------- Kartu aksi dashboard (klik -> data, animasi hover/press) ---------- */
+.action-card { position: relative; overflow: hidden; cursor: pointer; isolation: isolate;
+    transition: transform .35s cubic-bezier(.22,.61,.36,1), box-shadow .35s ease, border-color .35s ease; }
+.action-card:hover { transform: translateY(-5px); box-shadow: 0 18px 38px -16px rgba(49,46,129,.26); border-color: #c7d2fe; }
+.action-card:active { transform: translateY(-2px) scale(.97); transition-duration: .12s; }
+.action-card .ac-icon { display: inline-flex; will-change: transform;
+    transition: transform .5s cubic-bezier(.34,1.56,.64,1); }
+.action-card:hover .ac-icon { transform: translateY(-5px) rotate(-9deg) scale(1.18); }
+.action-card .ac-arrow { opacity: 0; transform: translateX(-8px); transition: opacity .3s ease, transform .3s ease; }
+.action-card:hover .ac-arrow { opacity: 1; transform: none; }
+.action-card .ac-value { transition: transform .35s cubic-bezier(.22,.61,.36,1); }
+.action-card:hover .ac-value { transform: translateX(3px); }
+/* Kilau mengikuti kursor */
+.action-card::before { content: ''; position: absolute; inset: 0; z-index: -1; opacity: 0; pointer-events: none;
+    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgba(99,102,241,.09), transparent 62%);
+    transition: opacity .35s ease; }
+.action-card:hover::before { opacity: 1; }
+/* Efek ripple saat diklik */
+.action-card .ripple { position: absolute; border-radius: 9999px; transform: scale(0); pointer-events: none;
+    background: rgba(99,102,241,.22); animation: rippleAnim .65s ease-out forwards; z-index: 0; }
+@keyframes rippleAnim { to { transform: scale(2.6); opacity: 0; } }
+
+/* ---------- Filter chips (dashboard) ---------- */
+.filter-chip { display: inline-flex; align-items: center; gap: .45rem; font-size: .78rem; font-weight: 600; color: #4b5563;
+    background: #ffffff; border: 1px solid #e5e7eb; border-radius: 9999px; padding: .45rem .95rem; white-space: nowrap;
+    transition: transform .25s cubic-bezier(.34,1.56,.64,1), background .2s ease, color .2s ease, border-color .2s ease, box-shadow .25s ease; }
+.filter-chip:hover { transform: translateY(-2px) scale(1.03); color: #4f46e5; border-color: #c7d2fe; background: #eef2ff;
+    box-shadow: 0 8px 18px -8px rgba(79,70,229,.35); }
+.filter-chip:active { transform: scale(.96); }
+.filter-chip .chip-count { background: #4f46e5; color: #fff; border-radius: 9999px; font-size: .65rem;
+    min-width: 1.2rem; height: 1.2rem; display: inline-flex; align-items: center; justify-content: center; padding: 0 .3rem; }
+
+/* ---------- Pencarian global dashboard ---------- */
+.search-panel { max-height: 26rem; overflow-y: auto; }
+.search-group-label { position: sticky; top: 0; background: #f9fafb; backdrop-filter: blur(4px); }
+.search-result-item { transition: background .15s ease, transform .15s ease; }
+.search-result-item:hover { background: #eef2ff; }
+.search-result-item:hover .sr-arrow { transform: translateX(2px); opacity: 1; }
+.sr-arrow { opacity: 0; transform: translateX(-3px); transition: all .2s ease; }

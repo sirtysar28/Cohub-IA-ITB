@@ -1,0 +1,50 @@
+{
+    "name": "CoHub IA ITB Jatim — Sewa Properti & Jasa",
+    "short_name": "CoHub",
+    "description": "Platform sewa properti dan jasa profesional IA ITB Jatim: ruko, kantor, gudang, villa, gedung, hingga jasa fotografi, IT, dan event.",
+    "lang": "id",
+    "dir": "ltr",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "orientation": "portrait-primary",
+    "background_color": "#0f172a",
+    "theme_color": "#4f46e5",
+    "categories": ["business", "productivity", "shopping"],
+    "icons": [
+        {
+            "src": "/icons/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Cari Properti",
+            "short_name": "Properti",
+            "description": "Telusuri ruko, kantor, gudang, villa, dan gedung",
+            "url": "/properties",
+            "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+        },
+        {
+            "name": "Cari Jasa",
+            "short_name": "Jasa",
+            "description": "Telusuri jasa profesional",
+            "url": "/services",
+            "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+        }
+    ]
+}
